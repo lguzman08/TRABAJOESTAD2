@@ -1,0 +1,145 @@
+VOICE AND ACCOUNTABILITY
+ data extraída de The Worldwide Governance Indicators (WGI)
+ 
+ 
+```{r}
+if(!require("fs")) install.packages("fs")
+if(!require("readxl")) install.packages("readxl")
+
+
+#paquetes
+library(tidyverse)
+library(fs)
+library(readxl)
+```
+ 
+ 
+```{r}
+read_excel("wgidataset.xlsx", 2)
+```
+
+```{r}
+library(readxl)
+account=read_xlsx("wgidataset.xlsx",sheet=2)
+```
+
+```{r}
+#ELIMINAMOS FILAS DE 1-10
+account=account[-c(1:10),]
+```
+
+```{r}
+#Nos quedamos con las columnas:
+account=account[,c(1,59:122)] 
+```
+```{r}
+#NOS QUEDAMOS CON LAS COLUMNAS DEL AÑO 2008-2018 CON SCORE
+account=account[,c(1,2,8,14,20,26,32,38,44,50,56,62)] 
+```
+```{r}
+#Cambiamos los nombres a las columnas
+
+names(account)=c('Pais','SC2008','SC2009','SC2010','SC2011','SC2012','SC2013','SC2014','SC2015','SC2016','SC2017','SC2018')
+```
+
+```{r}
+#ELIMINAMOS FILA 1 AL 4
+account=account[-c(1:4),]
+```
+
+```{r}
+#escogemos los pises
+
+account=account[c(6,9,10,14,15,17,21,24,25,28,29,37,38,44,47,48,51,52,55,56,58,61,62,64,66,69,70,76,79,84,85,86,87,90,93,95,99,115,122,125,127,129,132,142,144,145,151,153,156,159,160,163,164,173,178,179,180,193,198,199,203),]
+
+
+```
+```{r}
+#Reordenar los datos
+row.names(account)=NULL
+```
+```{r}
+#CAMBIAMOS LOS NOMBRES A LOS PAÍSES
+
+account[account$`Pais`=="Bosnia and Herzegovina",'Pais']="Bosnia y Herzegovina"
+account[account$`Pais`=="Azerbaijan",'Pais']="Azerbaiyan"
+account[account$`Pais`=="Belgium",'Pais']="Belgica"
+account[account$`Pais`=="Brazil",'Pais']="Brasil"
+account[account$`Pais`=="Switzerland",'Pais']="Suiza"
+account[account$`Pais`=="Belarus",'Pais']="Bielorrusia"
+account[account$`Pais`=="Czech Republic",'Pais']="Republica Checa"
+account[account$`Pais`=="Denmark",'Pais']="Dinmarca"
+account[account$`Pais`=="Germany",'Pais']="Alemania"
+account[account$`Pais`=="Dominican Republic",'Pais']="Republica Dominicana"
+account[account$`Pais`=="Macedonia, FYR",'Pais']="Macedonia"
+account[account$`Pais`=="Russian Federation",'Pais']="Rusia"
+account[account$`Pais`=="Slovak Republic",'Pais']="Eslovaquia"
+account[account$`Pais`=="Venezuela, RB",'Pais']="Venezuela"
+account[account$`Pais`=="Lithuania",'Pais']="Lituania"
+account[account$`Pais`=="Ireland",'Pais']="Irlanda"
+account[account$`Pais`=="Iceland",'Pais']="Islandia"
+account[account$`Pais`=="Italy",'Pais']="Italia"
+account[account$`Pais`=="Ukraine",'Pais']="Ucrania"
+account[account$`Pais`=="Romania",'Pais']="Rumania"
+account[account$`Pais`=="Poland",'Pais']="Polonia"
+account[account$`Pais`=="Hungary",'Pais']="Hungria"
+account[account$`Pais`=="Croatia",'Pais']="Croacia"
+account[account$`Pais`=="Greece",'Pais']="Grecia"
+account[account$`Pais`=="Turkey",'Pais']="Turquia"
+account[account$`Pais`=="United Kingdom",'Pais']="Reino Unido"
+account[account$`Pais`=="France",'Pais']="Francia"
+account[account$`Pais`=="Finland",'Pais']="Finlandia"
+account[account$`Pais`=="Spain",'Pais']="Espana"
+account[account$`Pais`=="Norway",'Pais']="Noruega"
+account[account$`Pais`=="Netherlands",'Pais']="Paises bajos"
+account[account$`Pais`=="Sweden",'Pais']="Suecia"
+account[account$`Pais`=="Slovenia",'Pais']="Eslovenia"
+account[account$`Pais`=="Kazakhstan",'Pais']="Kazajstan"
+```
+
+```{r}
+row.names(account)=NULL
+```
+
+```{r}
+#omitimos nas
+account=na.omit(account)
+```
+
+```{r}
+str(account)
+```
+```{r}
+#convertimos a numericas las columnas de la 2 a la 12
+account[c(2:12)] = lapply(account[c(2:12)], as.numeric)
+```
+```{r}
+str(account)
+```
+
+```{r}
+#eliminamos espacios en blanco en las columnas 2 a la 12
+trimws(account$SC2008,whitespace = "[\\h\\v]")
+trimws(account$SC2009,whitespace = "[\\h\\v]")
+trimws(account$SC2010,whitespace = "[\\h\\v]")
+trimws(account$SC2011,whitespace = "[\\h\\v]")
+trimws(account$SC2012,whitespace = "[\\h\\v]")
+trimws(account$SC2013,whitespace = "[\\h\\v]")
+trimws(account$SC2014,whitespace = "[\\h\\v]")
+trimws(account$SC2015,whitespace = "[\\h\\v]")
+trimws(account$SC2016,whitespace = "[\\h\\v]")
+trimws(account$SC2017,whitespace = "[\\h\\v]")
+trimws(account$SC2018,whitespace = "[\\h\\v]")
+
+```
+
+```{r}
+#nos quedamos con los casos completos
+account=account[complete.cases(account),]
+```
+
+
+```{r}
+str(account)
+```
+
