@@ -1,0 +1,963 @@
+VARIABLE DEPENDIENTE:
+VARIABLE: PERCEPCIÓN DE CORRUPCIÓN (LEDA GUZMÁN)
+
+AÑO 2010
+```{r}
+library(rio)
+```
+
+```{r}
+
+link7="https://github.com/lguzman08/TRABAJOESTAD2/raw/master/CP20100.xlsx"
+data2010=import(link7)
+names(link7)
+```
+```{r}
+#LA INFORMACION ESTA EN UNA COLUMNA POR LO QUE SE PROCEDERA A SEPARAR POR COMAS Y UNIRLAS POR MERGE
+names(data2010)=c("Pais")
+head(data2010)
+
+```
+
+```{r}
+#SEPARACIÓN DE COLUMNAS POR COMA Y MERGE
+library(tidyr)
+library(tidyverse)
+library(dplyr)
+data2010=separate(data2010 ,Pais, into = c("Pais","resto"), sep = ",",extra="merge")
+```
+```{r}
+data2010=separate(data2010 ,resto, into = c("Iso","resto"), sep = ",",extra="merge")
+head(data2010)
+```
+```{r}
+data2010=separate(data2010 ,resto, into = c("Region","resto"), sep = ",",extra="merge")
+head(data2010)
+
+```
+```{r}
+data2010=separate(data2010 ,resto, into = c("CPI2010","resto"), sep = ",",extra="merge")
+head(data2010)
+
+```
+```{r}
+#NOS QUEDAMOS CON COLUMNA 1 Y 4
+data2010=data2010[,c(1,4)] 
+```
+
+```{r}
+#CONVERTIMOS COLUMNA 2 EN NUMERICA
+data2010$CPI2010=as.numeric(data2010$CPI2010)
+```
+
+```{r}
+#OMITIMOS NAS
+data2010=na.omit(data2010)
+```
+```{r}
+#MULTIPLICAMOS LA COLUMNA DOS POR 10 
+data2010$CPI2010=(data2010$CPI2010*10)
+```
+
+```{r}
+#Reordenar los datos
+row.names(data2010)=NULL
+```
+
+
+```{r}
+#Nos quedamos con los siguientes países
+data2010=data2010[c(2,5,6,8,9,13,14,17,18,20,22,31,33,36,38,39,41,43,46,47,49,52,54,55,58,59,61,62,66,67,69,70,75,77,81,92,93,99,102,103,105,111,113,116,119,121,122,124,125,127,128,133,137,138,142,145,146,156,159,161,163,166),]
+
+```
+
+NO HAY PAÍS MACEDONIA
+```{r}
+#Reordenar los datos
+row.names(data2010)=NULL
+```
+
+```{r}
+#Cambiamos los nombres de los países
+
+data2010[data2010$`Pais`=="Dominican Republic",'Pais']="Republica Dominicana"
+data2010[data2010$`Pais`=="Russia",'Pais']="Rusia"
+data2010[data2010$`Pais`=="Azerbaijan",'Pais']="Azerbaiyan"
+data2010[data2010$`Pais`=="Ukraine",'Pais']="Ucrania"
+data2010[data2010$`Pais`=="Moldova",'Pais']="Moldavia"
+data2010[data2010$`Pais`=="Brazil",'Pais']="Brasil"
+data2010[data2010$`Pais`=="Kazakhstan",'Pais']="Kazajistan"
+data2010[data2010$`Pais`=="Bosnia and Herzegovina",'Pais']="Bosnia y Herzegovina"
+data2010[data2010$`Pais`=="Turkey",'Pais']="Turquia"
+data2010[data2010$`Pais`=="Hungary",'Pais']="Hungria"
+data2010[data2010$`Pais`=="Romania",'Pais']="Rumania"
+data2010[data2010$`Pais`=="Belarus",'Pais']="Bielorrusia"
+data2010[data2010$`Pais`=="Croatia",'Pais']="Croacia"
+data2010[data2010$`Pais`=="Greece",'Pais']="Grecia"
+data2010[data2010$`Pais`=="Slovakia",'Pais']="Eslovaquia"
+data2010[data2010$`Pais`=="Italy",'Pais']="Italia"
+data2010[data2010$`Pais`=="Czech Republic",'Pais']="Republica Checa"
+data2010[data2010$`Pais`=="Poland",'Pais']="Polonia"
+data2010[data2010$`Pais`=="Lithuania",'Pais']="Lituania"
+data2010[data2010$`Pais`=="Slovenia",'Pais']="Eslovenia"
+data2010[data2010$`Pais`=="Spain",'Pais']="España"
+data2010[data2010$`Pais`=="France",'Pais']="Francia"
+data2010[data2010$`Pais`=="Ireland",'Pais']="Irlanda"
+data2010[data2010$`Pais`=="Belgium",'Pais']="Belgica"
+data2010[data2010$`Pais`=="United Kingdom",'Pais']="Reino Unido"
+data2010[data2010$`Pais`=="Germany",'Pais']="Alemania"
+data2010[data2010$`Pais`=="Luxembourg",'Pais']="Luxemburgo"
+data2010[data2010$`Pais`=="Netherlands",'Pais']="Paises bajos"
+data2010[data2010$`Pais`=="Norway",'Pais']="Noruega"
+data2010[data2010$`Pais`=="Sweden",'Pais']="Suecia"
+data2010[data2010$`Pais`=="Switzerland",'Pais']="Suiza"
+data2010[data2010$`Pais`=="Finland",'Pais']="Finlandia"
+data2010[data2010$`Pais`=="Denmark",'Pais']="Dinamarca"
+data2010[data2010$`Pais`=="Iceland",'Pais']="Islandia"
+```
+```{r}
+row.names(data2010)=NULL
+```
+
+```{r}
+#ordenamos columna dos de menor a mayor
+data2010=data2010[order(data2010$CPI2010), ]
+```
+
+```{r}
+row.names(data2010)=NULL
+```
+```{r}
+#CONVERTIMOS TABLA DOS A NUMERICA
+data2010$CPI2010=as.numeric(data2010$CPI2010)
+
+```
+
+
+```{r}
+str(data2010)
+```
+DATA 2011
+```{r}
+
+link6="https://github.com/lguzman08/TRABAJOESTAD2/raw/master/CPI20111.xlsx"
+data2011=import(link6)
+names(link6)
+```
+
+```{r}
+#SE OBSERVA QUE LA INFORMACION ESTA SOLO EN UNA COLUMNA POR LO Q SE PROCEDERA A SEPARAR Y HACER MERGE
+names(data2011)=c("contri")
+head(data2011)
+```
+
+
+```{r}
+#SEPARAMOS POR COMAS
+library(tidyr)
+library(tidyverse)
+library(dplyr)
+data2011=separate(data2011 ,contri, into = c("Pais","resto"), sep = ",",extra="merge")
+```
+
+```{r}
+data2011=separate(data2011 ,resto, into = c("iso","resto"), sep = ",",extra="merge")
+head(data2011)
+```
+```{r}
+data2011=separate(data2011 ,resto, into = c("region","resto"), sep = ",",extra="merge")
+head(data2011)
+```
+
+```{r}
+#FINALMENTE NOS QUEDAMOS CON ESTO
+data2011=separate(data2011 ,resto, into = c("CPI2011","rank"), sep = ",",extra="merge")
+head(data2011)
+```
+```{r}
+#NOS QUEDAMOS CON COLUMNA 1 Y 4
+data2011=data2011[,c(1,4)] 
+```
+```{r}
+#CONVERTIMOS COLUMNA 2  NUMERICA
+data2011$CPI2011=as.numeric(data2011$CPI2011)
+
+```
+
+```{r}
+#OMITIMOS NAS
+data2011=na.omit(data2011)
+```
+```{r}
+#EN ESTE CASO MULTIPLICAMOS LA COLUMNA 2 POR 10 YA QUE SE PRESENTAN LOS DATOS EN DECIMALES
+data2011$CPI2011=(data2011$CPI2011*10)
+```
+
+```{r}
+#Reordenar los datos
+row.names(data2011)=NULL
+```
+
+
+```{r}
+#Nos quedamos con los siguientes países
+data2011=data2011[c(2,3,4,6,7,9,11,13,14,16,18,19,20,22,25,27,29,31,33,35,39,41,47,48,51,54,58,60,61,63,64,65,67,68,71,75,76,77,79,81,83,84,86,90,92,100,107,110,113,115,117,121,122,123,131,135,136,140,145,154,166,167),]
+
+```
+
+NO HAY PAÍS MACEDONIA
+```{r}
+#Reordenar los datos
+row.names(data2011)=NULL
+```
+```{r}
+#Cambiamos los nombres de los países
+
+data2011[data2011$`Pais`=="Dominican Republic",'Pais']="Republica Dominicana"
+data2011[data2011$`Pais`=="Russia",'Pais']="Rusia"
+
+data2011[data2011$`Pais`=="Azerbaijan",'Pais']="Azerbaiyan"
+data2011[data2011$`Pais`=="Ukraine",'Pais']="Ucrania"
+data2011[data2011$`Pais`=="Moldova",'Pais']="Moldavia"
+data2011[data2011$`Pais`=="Brazil",'Pais']="Brasil"
+data2011[data2011$`Pais`=="Kazakhstan",'Pais']="Kazajistan"
+data2011[data2011$`Pais`=="Bosnia and Herzegovina",'Pais']="Bosnia y Herzegovina"
+data2011[data2011$`Pais`=="Turkey",'Pais']="Turquia"
+data2011[data2011$`Pais`=="Hungary",'Pais']="Hungria"
+data2011[data2011$`Pais`=="Romania",'Pais']="Rumania"
+data2011[data2011$`Pais`=="Belarus",'Pais']="Bielorrusia"
+data2011[data2011$`Pais`=="Croatia",'Pais']="Croacia"
+data2011[data2011$`Pais`=="Greece",'Pais']="Grecia"
+data2011[data2011$`Pais`=="Slovakia",'Pais']="Eslovaquia"
+data2011[data2011$`Pais`=="Italy",'Pais']="Italia"
+data2011[data2011$`Pais`=="Czech Republic",'Pais']="Republica Checa"
+data2011[data2011$`Pais`=="Poland",'Pais']="Polonia"
+data2011[data2011$`Pais`=="Lithuania",'Pais']="Lituania"
+data2011[data2011$`Pais`=="Slovenia",'Pais']="Eslovenia"
+data2011[data2011$`Pais`=="Spain",'Pais']="España"
+data2011[data2011$`Pais`=="France",'Pais']="Francia"
+data2011[data2011$`Pais`=="Ireland",'Pais']="Irlanda"
+data2011[data2011$`Pais`=="Belgium",'Pais']="Belgica"
+data2011[data2011$`Pais`=="United Kingdom",'Pais']="Reino Unido"
+data2011[data2011$`Pais`=="Germany",'Pais']="Alemania"
+data2011[data2011$`Pais`=="Luxembourg",'Pais']="Luxemburgo"
+data2011[data2011$`Pais`=="Netherlands",'Pais']="Paises bajos"
+data2011[data2011$`Pais`=="Norway",'Pais']="Noruega"
+data2011[data2011$`Pais`=="Sweden",'Pais']="Suecia"
+data2011[data2011$`Pais`=="Switzerland",'Pais']="Suiza"
+data2011[data2011$`Pais`=="Finland",'Pais']="Finlandia"
+data2011[data2011$`Pais`=="Denmark",'Pais']="Dinamarca"
+data2011[data2011$`Pais`=="Iceland",'Pais']="Islandia"
+```
+```{r}
+row.names(data2011)=NULL
+```
+
+```{r}
+#REORDENAMOS DE MENOR A MAYOR LA COLUMNA 2
+data2011=data2011[order(data2011$CPI2011), ]
+```
+
+```{r}
+row.names(data2011)=NULL
+```
+```{r}
+#CONVERTIMOS COLUMNA 2 A NUMERICA
+data2011$CPI2011=as.numeric(data2011$CPI2011)
+
+```
+
+
+```{r}
+str(data2011)
+```
+
+DATA2012
+
+
+```{r}
+link5="https://github.com/lguzman08/TRABAJOESTAD2/raw/master/CPI20122.xlsx"
+data2012=import(link5)
+names(link5)
+```
+```{r}
+#NOS QUEDAMOS CON COLUMNA 2 Y 4
+
+data2012=data2012[,c(2,4)] 
+```
+
+```{r}
+names(data2012)=c("Pais","CPI2012")
+
+```
+
+```{r}
+#Nos quedamos con los casos completos
+data2012[!complete.cases(data2012),]
+```
+
+```{r}
+data2012=na.omit(data2012)
+```
+
+
+```{r}
+#Reordenar los datos
+row.names(data2012)=NULL
+```
+
+
+```{r}
+#Nos quedamos con los siguientes países
+data2012=data2012[c(1,2,4,6,8,10,11,12,13,16,18,20,21,23,25,26,31,32,34,37,42,43,47,48,49,51,54,57,58,62,63,67,69,70,72,73,75,77,81,84,86,87,95,97,99,102,106,107,111,113,115,118,119,123,131,135,137,138,139,149,153,167,168),]
+```
+```{r}
+#Reordenar los datos
+row.names(data2012)=NULL
+```
+```{r}
+#Cambiamos los nombres de los países
+
+data2012[data2012$`Pais`=="Dominican Republic",'Pais']="Republica Dominicana"
+data2012[data2012$`Pais`=="Russia",'Pais']="Rusia"
+
+data2012[data2012$`Pais`=="Azerbaijan",'Pais']="Azerbaiyan"
+data2012[data2012$`Pais`=="Ukraine",'Pais']="Ucrania"
+data2012[data2012$`Pais`=="Moldova",'Pais']="Moldavia"
+data2012[data2012$`Pais`=="Brazil",'Pais']="Brasil"
+data2012[data2012$`Pais`=="The FYR of Macedonia",'Pais']="Macedonia"
+data2012[data2012$`Pais`=="Bosnia and Herzegovina",'Pais']="Bosnia y Herzegovina"
+data2012[data2012$`Pais`=="Turkey",'Pais']="Turquia"
+data2012[data2012$`Pais`=="Hungary",'Pais']="Hungria"
+data2012[data2012$`Pais`=="Romania",'Pais']="Rumania"
+data2012[data2012$`Pais`=="Belarus",'Pais']="Bielorrusia"
+data2012[data2012$`Pais`=="Croatia",'Pais']="Croacia"
+data2012[data2012$`Pais`=="Greece",'Pais']="Grecia"
+data2012[data2012$`Pais`=="Slovakia",'Pais']="Eslovaquia"
+data2012[data2012$`Pais`=="Italy",'Pais']="Italia"
+data2012[data2012$`Pais`=="Czech Republic",'Pais']="Republica Checa"
+data2012[data2012$`Pais`=="Poland",'Pais']="Polonia"
+data2012[data2012$`Pais`=="Lithuania",'Pais']="Lituania"
+data2012[data2012$`Pais`=="Slovenia",'Pais']="Eslovenia"
+data2012[data2012$`Pais`=="Spain",'Pais']="España"
+data2012[data2012$`Pais`=="France",'Pais']="Francia"
+data2012[data2012$`Pais`=="Ireland",'Pais']="Irlanda"
+data2012[data2012$`Pais`=="Belgium",'Pais']="Belgica"
+data2012[data2012$`Pais`=="United Kingdom",'Pais']="Reino Unido"
+data2012[data2012$`Pais`=="Germany",'Pais']="Alemania"
+data2012[data2012$`Pais`=="Luxembourg",'Pais']="Luxemburgo"
+data2012[data2012$`Pais`=="Netherlands",'Pais']="Paises bajos"
+data2012[data2012$`Pais`=="Norway",'Pais']="Noruega"
+data2012[data2012$`Pais`=="Sweden",'Pais']="Suecia"
+data2012[data2012$`Pais`=="Switzerland",'Pais']="Suiza"
+data2012[data2012$`Pais`=="Finland",'Pais']="Finlandia"
+data2012[data2012$`Pais`=="Denmark",'Pais']="Dinamarca"
+data2012[data2012$`Pais`=="Iceland",'Pais']="Islandia"
+data2012[data2012$`Pais`=="Kazakhstan",'Pais']="Kazajistan"
+```
+```{r}
+row.names(data2012)=NULL
+```
+
+```{r}
+#REORDENAMOS DE MENOR A MAYOR COLUMNA 2
+data2012=data2012[order(data2012$CPI2012), ]
+```
+
+```{r}
+row.names(data2012)=NULL
+```
+```{r}
+#CONVERTIMOS A NUMÉRICA LA COLUMNA 2
+data2012$CPI2012=as.numeric(data2012$CPI2012)
+
+```
+
+```{r}
+str(data2012)
+```
+
+DATA2013
+
+
+```{r}
+link4="https://github.com/lguzman08/TRABAJOESTAD2/raw/master/CPI2013.xlsx"
+data2013=import(link4)
+names(link4)
+
+head(data2013)
+```
+
+```{r}
+#NOS QUEDAMOS CON COLUMNA 2 Y 7
+data2013=data2013[,c(2,7)] 
+```
+
+```{r}
+#CAMBIAMOS NOMBRE DE LAS COLUMNAS
+names(data2013)=c("Pais","CPI2013")
+
+```
+```{r}
+#ELIMINAMOS FILA 1
+data2013=data2013[-c(1),]
+```
+
+```{r}
+#OMITIMOS NAS
+data2013=na.omit(data2013)
+```
+
+
+```{r}
+#Nos quedamos con los casos completos
+data2013[!complete.cases(data2013),]
+```
+
+
+```{r}
+#Reordenar los datos
+row.names(data2013)=NULL
+```
+
+
+```{r}
+#Nos quedamos con los siguientes países
+data2013=data2013[c(1,3,4,5,7,8,11,12,13,14,16,20,21,23,24,26,28,33,39,40,43,44,45,47,49,54,55,58,59,62,63,67,68,69,71,72,73,75,77,81,84,88,95,97,102,103,104,106,107,109,116,123,124,125,127,133,135,140,141,149,152,162,166),]
+```
+
+```{r}
+#Reordenar los datos
+row.names(data2013)=NULL
+```
+
+```{r}
+#Cambiamos los nombres de los países
+
+data2013[data2013$`Pais`=="Dominican Republic",'Pais']="Republica Dominicana"
+data2013[data2013$`Pais`=="Russia",'Pais']="Rusia"
+data2013[data2013$`Pais`=="Azerbaijan",'Pais']="Azerbaiyan"
+data2013[data2013$`Pais`=="Ukraine",'Pais']="Ucrania"
+data2013[data2013$`Pais`=="Moldova",'Pais']="Moldavia"
+data2013[data2013$`Pais`=="Brazil",'Pais']="Brasil"
+data2013[data2013$`Pais`=="The FYR of Macedonia",'Pais']="Macedonia"
+data2013[data2013$`Pais`=="Bosnia and Herzegovina",'Pais']="Bosnia y Herzegovina"
+data2013[data2013$`Pais`=="Turkey",'Pais']="Turquia"
+data2013[data2013$`Pais`=="Hungary",'Pais']="Hungria"
+data2013[data2013$`Pais`=="Iceland",'Pais']="Islandia"
+data2013[data2013$`Pais`=="Romania",'Pais']="Rumania"
+data2013[data2013$`Pais`=="Belarus",'Pais']="Bielorrusia"
+data2013[data2013$`Pais`=="Croatia",'Pais']="Croacia"
+data2013[data2013$`Pais`=="Greece",'Pais']="Grecia"
+data2013[data2013$`Pais`=="Slovakia",'Pais']="Eslovaquia"
+data2013[data2013$`Pais`=="Italy",'Pais']="Italia"
+data2013[data2013$`Pais`=="Czech Republic",'Pais']="Republica Checa"
+data2013[data2013$`Pais`=="Poland",'Pais']="Polonia"
+data2013[data2013$`Pais`=="Lithuania",'Pais']="Lituania"
+data2013[data2013$`Pais`=="Slovenia",'Pais']="Eslovenia"
+data2013[data2013$`Pais`=="Spain",'Pais']="España"
+data2013[data2013$`Pais`=="France",'Pais']="Francia"
+data2013[data2013$`Pais`=="Ireland",'Pais']="Irlanda"
+data2013[data2013$`Pais`=="Belgium",'Pais']="Belgica"
+data2013[data2013$`Pais`=="United Kingdom",'Pais']="Reino Unido"
+data2013[data2013$`Pais`=="Germany",'Pais']="Alemania"
+data2013[data2013$`Pais`=="Luxembourg",'Pais']="Luxemburgo"
+data2013[data2013$`Pais`=="Netherlands",'Pais']="Paises bajos"
+data2013[data2013$`Pais`=="Norway",'Pais']="Noruega"
+data2013[data2013$`Pais`=="Sweden",'Pais']="Suecia"
+data2013[data2013$`Pais`=="Switzerland",'Pais']="Suiza"
+data2013[data2013$`Pais`=="Finland",'Pais']="Finlandia"
+data2013[data2013$`Pais`=="Denmark",'Pais']="Dinamarca"
+data2013[data2013$`Pais`=="Kazakhstan",'Pais']="Kazajistan"
+
+```
+```{r}
+#REORDENAMOS LOS DATOS
+row.names(data2013)=NULL
+```
+
+```{r}
+#MODIFICAMOS COLUMNA DOS PARA QUE ESTE DE MENOR A MAYOR
+data2013=data2013[order(data2013$CPI2013), ]
+```
+
+```{r}
+row.names(data2013)=NULL
+```
+```{r}
+#CONVERTIMOS A NUMERICA
+data2013$CPI2013=as.numeric(data2013$CPI2013)
+
+```
+
+
+```{r}
+str(data2013)
+```
+
+data2014
+
+```{r}
+
+
+#Importamos la data desde excel
+library (openxlsx)
+
+link3="https://github.com/lguzman08/TRABAJOESTAD2/raw/master/CPI2014.xlsx"
+data2014=import(link3)
+names(link3)
+
+head(data2014)
+```
+```{r}
+#NOS QUEDAMOS CON COLUMNA 2 Y 5
+data2014=data2014[,c(2,5)] 
+```
+
+```{r}
+#MODIFICAMOS NOMBRE DE LAS COLUMNAS
+names(data2014)=c("Pais","CPI2014")
+```
+
+```{r}
+#NOS QUEDAMOS CON CASOS COMPLETOS
+data2014[!complete.cases(data2014),]
+```
+```{r}
+#NOS QUEDAMOS CON LOS PAÍSES QUE QUEREMOS
+data2014=data2014[c(1,3,4,5,6,8,9,12,13,14,15,19,21,22,23,27,28,33,36,39,41,42,46,48,49,51,53,54,61,63,65,66,69,70,71,72,73,76,78,81,82,88,94,95,99,103,104,105,107,110,111,116,117,119,126,128,129,134,141,144,151,163,164),]
+```
+```{r}
+#Cambiamos los nombres de los países
+
+data2014[data2014$`Pais`=="Dominican Republic",'Pais']="Republica Dominicana"
+data2014[data2014$`Pais`=="Russia",'Pais']="Rusia"
+data2014[data2014$`Pais`=="Azerbaijan",'Pais']="Azerbaiyan"
+data2014[data2014$`Pais`=="Ukraine",'Pais']="Ucrania"
+data2014[data2014$`Pais`=="Moldova",'Pais']="Moldavia"
+data2014[data2014$`Pais`=="Brazil",'Pais']="Brasil"
+data2014[data2014$`Pais`=="The FYR of Macedonia",'Pais']="Macedonia"
+data2014[data2014$`Pais`=="Bosnia and Herzegovina",'Pais']="Bosnia y Herzegovina"
+data2014[data2014$`Pais`=="Turkey",'Pais']="Turquia"
+data2014[data2014$`Pais`=="Hungary",'Pais']="Hungria"
+data2014[data2014$`Pais`=="Romania",'Pais']="Rumania"
+data2014[data2014$`Pais`=="Belarus",'Pais']="Bielorrusia"
+data2014[data2014$`Pais`=="Croatia",'Pais']="Croacia"
+data2014[data2014$`Pais`=="Greece",'Pais']="Grecia"
+data2014[data2014$`Pais`=="Slovakia",'Pais']="Eslovaquia"
+data2014[data2014$`Pais`=="Italy",'Pais']="Italia"
+data2014[data2014$`Pais`=="Czech Republic",'Pais']="Republica Checa"
+data2014[data2014$`Pais`=="Poland",'Pais']="Polonia"
+data2014[data2014$`Pais`=="Lithuania",'Pais']="Lituania"
+data2014[data2014$`Pais`=="Slovenia",'Pais']="Eslovenia"
+data2014[data2014$`Pais`=="Spain",'Pais']="España"
+data2014[data2014$`Pais`=="France",'Pais']="Francia"
+data2014[data2014$`Pais`=="Ireland",'Pais']="Irlanda"
+data2014[data2014$`Pais`=="Belgium",'Pais']="Belgica"
+data2014[data2014$`Pais`=="United Kingdom",'Pais']="Reino Unido"
+data2014[data2014$`Pais`=="Germany",'Pais']="Alemania"
+data2014[data2014$`Pais`=="Luxembourg",'Pais']="Luxemburgo"
+data2014[data2014$`Pais`=="Netherlands",'Pais']="Paises bajos"
+data2014[data2014$`Pais`=="Norway",'Pais']="Noruega"
+data2014[data2014$`Pais`=="Sweden",'Pais']="Suecia"
+data2014[data2014$`Pais`=="Switzerland",'Pais']="Suiza"
+data2014[data2014$`Pais`=="Finland",'Pais']="Finlandia"
+data2014[data2014$`Pais`=="Denmark",'Pais']="Dinamarca"
+data2014[data2014$`Pais`=="Iceland",'Pais']="Islandia"
+data2014[data2014$`Pais`=="Kazakhstan",'Pais']="Kazajistan"
+```
+```{r}
+#ORDENAMOS COLUMNA 2 DE MENOR A MAYOR
+data2014=data2014[order(data2014$CPI2014), ]
+```
+
+```{r}
+row.names(data2014)=NULL
+```
+```{r}
+#CONVERTIMOS COLUMNA 2 A NUMÉRICA
+data2014$CPI2014=as.numeric(data2014$CPI2014)
+
+```
+
+
+```{r}
+str(data2014)
+```
+
+DATA 2015
+
+```{r}
+link2 = "https://github.com/lguzman08/TRABAJOESTAD2/raw/master/cpi20152016.xlsx"
+data2015 = import(link2)
+names(data2015)
+
+```
+
+```{r}
+#NOS QUEDAMOS CON LA COLUMNA DEL 1 AL 4
+data2015=data2015[,c(1:4)]
+```
+
+```{r}
+#NOS QUEDAMOS CON COLUMNA 1 Y 4
+
+data2015=data2015[,c(1,4)]
+```
+
+```{r}
+#Nos quedamos con los casos completos
+data2015[!complete.cases(data2015),]
+```
+```{r}
+#Reordenar los datos
+row.names(data2015)=NULL
+```
+
+```{r}
+#CAMBIAMOS NOMBRE DE LAS COLUMNAS
+names(data2015)=c("Pais","CPI2015")
+```
+
+```{r}
+#OMITIMOS NAS
+data2015=na.omit(data2015)
+```
+
+```{r}
+#ORDENAMOS DE MENOR A MAYOR
+data2015=data2015[order(data2015$CPI2015), ]
+```
+
+```{r}
+#Reordenar los datos
+row.names(data2015)=NULL
+```
+
+```{r}
+#Nos quedamos con los siguientes países
+data2015=data2015[c(10,11,34,37,39,42,45,47,48,55,56,59,62,63,64,65,69,73,77,80,84,89,90,95,96,98,100,101,102,105,108,110,111,113,117,118,119,121,127,129,131,132,133,134,139,140,142,144,145,147,149,152,153,154,156,157,159,160,162,163,164,165,166,167),]
+```
+
+```{r}
+#Cambiamos los nombres de los países
+data2015[data2015$`Pais`=="Dominican Republic",'Pais']="Republica Dominicana"
+data2015[data2015$`Pais`=="Russia",'Pais']="Rusia"
+data2015[data2015$`Pais`=="Azerbaijan",'Pais']="Azerbaiyan"
+data2015[data2015$`Pais`=="Ukraine",'Pais']="Ucrania"
+data2015[data2015$`Pais`=="Moldova",'Pais']="Moldavia"
+data2015[data2015$`Pais`=="Brazil",'Pais']="Brasil"
+data2015[data2015$`Pais`=="Iceland",'Pais']="Islandia"
+data2015[data2015$`Pais`=="Bosnia and Herzegovina",'Pais']="Bosnia y Herzegovina"
+data2015[data2015$`Pais`=="Turkey",'Pais']="Turquia"
+data2015[data2015$`Pais`=="Kazakhstan",'Pais']="Kazajistan"
+data2015[data2015$`Pais`=="Hungary",'Pais']="Hungria"
+data2015[data2015$`Pais`=="Romania",'Pais']="Rumania"
+data2015[data2015$`Pais`=="Belarus",'Pais']="Bielorrusia"
+data2015[data2015$`Pais`=="Croatia",'Pais']="Croacia"
+data2015[data2015$`Pais`=="Greece",'Pais']="Grecia"
+data2015[data2015$`Pais`=="Slovakia",'Pais']="Eslovaquia"
+data2015[data2015$`Pais`=="Italy",'Pais']="Italia"
+data2015[data2015$`Pais`=="Czech Republic",'Pais']="Republica Checa"
+data2015[data2015$`Pais`=="Poland",'Pais']="Polonia"
+data2015[data2015$`Pais`=="Lithuania",'Pais']="Lituania"
+data2015[data2015$`Pais`=="Slovenia",'Pais']="Eslovenia"
+data2015[data2015$`Pais`=="Spain",'Pais']="España"
+data2015[data2015$`Pais`=="France",'Pais']="Francia"
+data2015[data2015$`Pais`=="Ireland",'Pais']="Irlanda"
+data2015[data2015$`Pais`=="Belgium",'Pais']="Belgica"
+data2015[data2015$`Pais`=="United Kingdom",'Pais']="Reino Unido"
+data2015[data2015$`Pais`=="Germany",'Pais']="Alemania"
+data2015[data2015$`Pais`=="Luxembourg",'Pais']="Luxemburgo"
+data2015[data2015$`Pais`=="Netherlands",'Pais']="Paises bajos"
+data2015[data2015$`Pais`=="Norway",'Pais']="Noruega"
+data2015[data2015$`Pais`=="Sweden",'Pais']="Suecia"
+data2015[data2015$`Pais`=="Switzerland",'Pais']="Suiza"
+data2015[data2015$`Pais`=="Finland",'Pais']="Finlandia"
+data2015[data2015$`Pais`=="Denmark",'Pais']="Dinamarca"
+data2015[data2015$`Pais`=="The FYR of Macedonia",'Pais']="Macedonia"
+```
+
+
+```{r}
+#Reordenar los datos
+row.names(data2015)=NULL
+```
+```{r}
+#CONVERTIMOS COLUMNA 2 Y 3 A NUMÉRICA
+data2015$CPI2015=as.numeric(data2015$CPI2015)
+
+```
+
+MERGE
+```{r}
+MERGE1C=merge(data2010,data2011,all.x=T,all.y=T) 
+```
+```{r}
+
+MERGE2C=merge(MERGE1C,data2012,all.x=T,all.y=T) 
+```
+
+```{r}
+
+MERGE3C=merge(MERGE2C,data2013,all.x=T,all.y=T) 
+```
+
+```{r}
+
+MERGE4C=merge(MERGE3C,data2014,all.x=T,all.y=T) 
+```
+
+```{r}
+corrup=merge(MERGE4C,data2015,all.x=T,all.y=T) 
+```
+
+```{r}
+corrup=na.omit(corrup)
+```
+
+
+```{r}
+str(corrup)
+```
+
+VARIABLE: PARTICIPACIÓN CIUDADANA(LEDA GUZMÁN)
+
+```{r}
+
+link2="https://github.com/lguzman08/TRABAJOESTAD2/raw/master/participacion%20ciuda.xlsx"
+partici=import(link2)
+```
+
+```{r}
+#ELIMINAMOS FILAS DE 1-10
+partici=partici[-c(1:10),]
+```
+
+```{r}
+#Nos quedamos con las columnas:
+partici=partici[,c(1,71:103)] 
+```
+```{r}
+#NOS QUEDAMOS CON LAS COLUMNAS DEL AÑO 2010-2015 CON RANK
+partici=partici[,c(1,3,9,15,21,27,33)] 
+```
+```{r}
+#Cambiamos los nombres a las columnas
+
+names(partici)=c('Pais','2010','2011','2012','2013','2014','2015')
+```
+
+```{r}
+#ELIMINAMOS FILA 1 AL 4
+partici=partici[-c(1:4),]
+```
+
+```{r}
+#Reordenar los datos
+row.names(partici)=NULL
+```
+
+```{r}
+#escogemos los pises
+partici=partici[c(6,9,10,14,15,17,21,24,25,28,29,37,38,44,47,48,51,52,55,56,58,61,62,64,66,69,70,76,79,84,85,86,87,90,93,95,99,115,122,125,127,129,132,142,144,145,151,153,156,159,160,163,164,173,178,179,180,193,198,199,203),]
+```
+```{r}
+#Reordenar los datos
+row.names(partici)=NULL
+```
+
+```{r}
+#CAMBIAMOS LOS NOMBRES A LOS PAÍSES
+
+partici[partici$`Pais`=="Bosnia and Herzegovina",'Pais']="Bosnia y Herzegovina"
+partici[partici$`Pais`=="Azerbaijan",'Pais']="Azerbaiyan"
+partici[partici$`Pais`=="Belgium",'Pais']="Belgica"
+partici[partici$`Pais`=="Brazil",'Pais']="Brasil"
+partici[partici$`Pais`=="Switzerland",'Pais']="Suiza"
+partici[partici$`Pais`=="Belarus",'Pais']="Bielorrusia"
+partici[partici$`Pais`=="Czech Republic",'Pais']="Republica Checa"
+partici[partici$`Pais`=="Denmark",'Pais']="Dinmarca"
+partici[partici$`Pais`=="Germany",'Pais']="Alemania"
+partici[partici$`Pais`=="Dominican Republic",'Pais']="Republica Dominicana"
+partici[partici$`Pais`=="Macedonia, FYR",'Pais']="Macedonia"
+partici[partici$`Pais`=="Russian Federation",'Pais']="Rusia"
+partici[partici$`Pais`=="Slovak Republic",'Pais']="Eslovaquia"
+partici[partici$`Pais`=="Venezuela, RB",'Pais']="Venezuela"
+partici[partici$`Pais`=="Lithuania",'Pais']="Lituania"
+partici[partici$`Pais`=="Ireland",'Pais']="Irlanda"
+partici[partici$`Pais`=="Iceland",'Pais']="Islandia"
+partici[partici$`Pais`=="Italy",'Pais']="Italia"
+partici[partici$`Pais`=="Ukraine",'Pais']="Ucrania"
+partici[partici$`Pais`=="Romania",'Pais']="Rumania"
+partici[partici$`Pais`=="Poland",'Pais']="Polonia"
+partici[partici$`Pais`=="Hungary",'Pais']="Hungria"
+partici[partici$`Pais`=="Croatia",'Pais']="Croacia"
+partici[partici$`Pais`=="Greece",'Pais']="Grecia"
+partici[partici$`Pais`=="Turkey",'Pais']="Turquia"
+partici[partici$`Pais`=="United Kingdom",'Pais']="Reino Unido"
+partici[partici$`Pais`=="France",'Pais']="Francia"
+partici[partici$`Pais`=="Finland",'Pais']="Finlandia"
+partici[partici$`Pais`=="Spain",'Pais']="Espana"
+partici[partici$`Pais`=="Norway",'Pais']="Noruega"
+partici[partici$`Pais`=="Netherlands",'Pais']="Paises bajos"
+partici[partici$`Pais`=="Sweden",'Pais']="Suecia"
+partici[partici$`Pais`=="Slovenia",'Pais']="Eslovenia"
+partici[partici$`Pais`=="Kazakhstan",'Pais']="Kazajistan"
+```
+
+```{r}
+row.names(partici)=NULL
+```
+
+```{r}
+#omitimos nas
+partici=na.omit(partici)
+```
+
+```{r}
+#CONVERTIMOS  A NUMÉRICA
+partici[c(2:7)] = lapply(partici[c(2:7)], as.numeric)
+
+```
+```{r}
+str(partici)
+```
+
+VARIABLE: PERCEPCIÓN DE EFICACIA (LEDA GUZMÁN)
+
+```{r}
+
+link3="https://github.com/lguzman08/TRABAJOESTAD2/raw/master/GovernmentEffectiveness.xlsx"
+eficacia=import(link3)
+```
+
+```{r}
+#ELIMINAMOS FILAS DE 1-10
+eficacia=eficacia[-c(1:10),]
+```
+
+```{r}
+#Nos quedamos con las columnas:
+eficacia=eficacia[,c(1,71:103)] 
+```
+```{r}
+#NOS QUEDAMOS CON LAS COLUMNAS DEL AÑO 2010-2015 CON RANK
+eficacia=eficacia[,c(1,3,9,15,21,27,33)] 
+```
+```{r}
+#Cambiamos los nombres a las columnas
+
+names(eficacia)=c('Pais','2010','2011','2012','2013','2014','2015')
+```
+
+```{r}
+#ELIMINAMOS FILA 1 AL 4
+eficacia=eficacia[-c(1:4),]
+```
+
+```{r}
+#Reordenar los datos
+row.names(eficacia)=NULL
+```
+```{r}
+#escogemos los pises
+eficacia=eficacia[c(6,9,10,14,15,17,21,24,25,28,29,37,38,44,47,48,51,52,55,56,58,61,62,64,66,69,70,76,79,84,85,86,87,90,93,95,99,115,122,125,127,129,132,142,144,145,151,153,156,159,160,163,164,173,178,179,180,193,198,199,203),]
+```
+```{r}
+#Reordenar los datos
+row.names(eficacia)=NULL
+```
+
+```{r}
+#CAMBIAMOS LOS NOMBRES A LOS PAÍSES
+
+eficacia[eficacia$`Pais`=="Bosnia and Herzegovina",'Pais']="Bosnia y Herzegovina"
+eficacia[eficacia$`Pais`=="Azerbaijan",'Pais']="Azerbaiyan"
+eficacia[eficacia$`Pais`=="Belgium",'Pais']="Belgica"
+eficacia[eficacia$`Pais`=="Brazil",'Pais']="Brasil"
+eficacia[eficacia$`Pais`=="Switzerland",'Pais']="Suiza"
+eficacia[eficacia$`Pais`=="Belarus",'Pais']="Bielorrusia"
+eficacia[eficacia$`Pais`=="Czech Republic",'Pais']="Republica Checa"
+eficacia[eficacia$`Pais`=="Denmark",'Pais']="Dinmarca"
+eficacia[eficacia$`Pais`=="Germany",'Pais']="Alemania"
+eficacia[eficacia$`Pais`=="Dominican Republic",'Pais']="Republica Dominicana"
+eficacia[eficacia$`Pais`=="Macedonia, FYR",'Pais']="Macedonia"
+eficacia[eficacia$`Pais`=="Russian Federation",'Pais']="Rusia"
+eficacia[eficacia$`Pais`=="Slovak Republic",'Pais']="Eslovaquia"
+eficacia[eficacia$`Pais`=="Venezuela, RB",'Pais']="Venezuela"
+eficacia[eficacia$`Pais`=="Lithuania",'Pais']="Lituania"
+eficacia[eficacia$`Pais`=="Ireland",'Pais']="Irlanda"
+eficacia[eficacia$`Pais`=="Iceland",'Pais']="Islandia"
+eficacia[eficacia$`Pais`=="Italy",'Pais']="Italia"
+eficacia[eficacia$`Pais`=="Ukraine",'Pais']="Ucrania"
+eficacia[eficacia$`Pais`=="Romania",'Pais']="Rumania"
+eficacia[eficacia$`Pais`=="Poland",'Pais']="Polonia"
+eficacia[eficacia$`Pais`=="Hungary",'Pais']="Hungria"
+eficacia[eficacia$`Pais`=="Croatia",'Pais']="Croacia"
+eficacia[eficacia$`Pais`=="Greece",'Pais']="Grecia"
+eficacia[eficacia$`Pais`=="Turkey",'Pais']="Turquia"
+eficacia[eficacia$`Pais`=="United Kingdom",'Pais']="Reino Unido"
+eficacia[eficacia$`Pais`=="France",'Pais']="Francia"
+eficacia[eficacia$`Pais`=="Finland",'Pais']="Finlandia"
+eficacia[eficacia$`Pais`=="Spain",'Pais']="Espana"
+eficacia[eficacia$`Pais`=="Norway",'Pais']="Noruega"
+eficacia[eficacia$`Pais`=="Netherlands",'Pais']="Paises bajos"
+eficacia[eficacia$`Pais`=="Sweden",'Pais']="Suecia"
+eficacia[eficacia$`Pais`=="Slovenia",'Pais']="Eslovenia"
+eficacia[eficacia$`Pais`=="Kazakhstan",'Pais']="Kazajistan"
+```
+
+```{r}
+row.names(eficacia)=NULL
+```
+
+```{r}
+#omitimos nas
+eficacia=na.omit(eficacia)
+```
+
+```{r}
+#CONVERTIMOS  A NUMÉRICA
+eficacia[c(2:7)] = lapply(eficacia[c(2:7)], as.numeric)
+
+```
+```{r}
+str(eficacia)
+```
+
+PROMEDIO 2010-2015
+A.CORRUPCIÓN
+
+```{r}
+corrup$CORRUP = rowMeans(corrup[,2:7], na.rm = TRUE)
+
+corrup[,2:7]=NULL
+```
+
+```{r}
+str(corrup)
+```
+B. PARTICIPACIÓN CIUDADANA
+
+```{r}
+partici$PARTIPCIUDA = rowMeans(partici[,2:7], na.rm = TRUE)
+
+partici[,2:7]=NULL
+```
+
+```{r}
+str(partici)
+```
+
+c.PERCEPCIÓN DE EFICACIA
+```{r}
+eficacia$PEFICACIA = rowMeans(eficacia[,2:7], na.rm = TRUE)
+
+eficacia[,2:7]=NULL
+```
+
+```{r}
+str(eficacia)
+```
+
